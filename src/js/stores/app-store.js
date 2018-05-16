@@ -16,14 +16,14 @@ for ( let i = 1; i <9; i++ ) {
     })
 }
 
-var cartItems = []
+var _cartItems = []
 
 const _removeItem = ( item ) => {
     _cartItems.splice( _cartItems.findIndex( i => i === item ), 1 )
 }
 
 const _findCartItem = ( item ) => {
-    _cartItems.find( cartItem => cartItem.id === item.id )
+    return _cartItems.find( cartItem => cartItem.id === item.id )
 }
 
 const _increaseItem = ( item ) => item.qty++
@@ -38,7 +38,7 @@ const _decreaseItem = ( item ) => {
 const _addItem = ( item ) => {
     const cartItem = _findCartItem( item )
     if( !cartItem ) {
-        _carItems.push( Object.assign( {qty: 1}, item ) )
+        _cartItems.push( Object.assign( {qty: 1}, item ) )
     }
     else {
         _increaseItem( cartItem )
@@ -50,11 +50,12 @@ const _cartTotals =  ( qty = 0, total = 0 ) => {
         qty += cartItem.qty
         total += cartItem.qty * cartItem.cost
     })
+    return {qty, total};
 }
 
 const AppStore = Object.assign(EventEmitter.prototype, {
     emitChange() {
-        this.emitChange( CHANGE_EVENT )
+        this.emit( CHANGE_EVENT )
     },
 
     addChangeListener( callback ){
@@ -87,7 +88,7 @@ const AppStore = Object.assign(EventEmitter.prototype, {
             case AppConstants.REMOVE_ITEM:
                 _removeItem( action.item )
                 break
-            case AppConstants.INCERASE_ITEM:
+            case AppConstants.INCREASE_ITEM:
                 _increaseItem( action.item )
                 break
             case AppConstants.DECREASE_ITEM:

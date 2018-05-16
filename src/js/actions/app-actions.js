@@ -21,7 +21,7 @@ export default {
             item
         })
     },
-    dereaseItem( item ){
+    decreaseItem( item ){
         dispatch({
             actionType: AppConstants.DECREASE_ITEM,
             item
